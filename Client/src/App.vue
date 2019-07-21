@@ -7,17 +7,19 @@
       </v-toolbar-title>
     </v-toolbar>
 
-    <v-content></v-content>
+    <v-content>
+      <Header></Header>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import Header from "./components/Header";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    Header
   },
   data() {
     return {
