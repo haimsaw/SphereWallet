@@ -1,7 +1,7 @@
 <template>
   <v-container fluid v-bind:class="containerClass">
     <v-layout align-center row fill-height justify-center class="text-uppercase">
-      <v-flex>{{balance}}</v-flex>
+      <v-flex te>{{balance}}</v-flex>
     </v-layout>
     <v-layout align-end row justify-center>
       <v-flex xs6>
