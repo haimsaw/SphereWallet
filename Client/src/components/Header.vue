@@ -1,13 +1,23 @@
 <template>
   <v-container fluid v-bind:class="containerClass">
-    <v-layout align-center row fill-height justify-center class="text-uppercase">
-      <v-flex te>{{balance}}</v-flex>
+    <!-- Balance div -->
+    <v-layout align-center row justify-center class="text-uppercase balance-cont">
+      <v-flex v-bind:class="centerText">
+        <div class="balance-text">{{balance + "$"}}</div>
+        <v-spacer></v-spacer>BALANCE
+      </v-flex>
     </v-layout>
-    <v-layout align-end row justify-center>
-      <v-flex xs6>
-        <v-layout fill-height justify-space-around xs10 offset-xs1>
-          <v-btn v-bind:class="buttonClass" round large>Send</v-btn>
-          <v-btn v-bind:class="buttonClass" round large>Recive</v-btn>
+
+    <!-- Buttons -->
+    <v-layout row justify-center>
+      <v-flex xs9>
+        <v-layout justify-space-around xs10 offset-xs1>
+          <v-btn v-bind:class="buttonClass" round large>
+            <v-icon>send</v-icon>Send
+          </v-btn>
+          <v-btn v-bind:class="buttonClass" round large>
+            <v-icon>archive</v-icon>Recive
+          </v-btn>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -21,6 +31,7 @@ export default {
   data: () => ({
     buttonClass: "button",
     containerClass: "container",
+    centerText: "centerText",
     balance: balace
   })
 };
@@ -28,12 +39,32 @@ export default {
 
 <style>
 .button {
-  color: lightblue !important;
+  color: rgb(92, 190, 223) !important;
+  width: 150px;
 }
 
 .container {
-  background-color: lightblue;
+  background: rgb(200, 230, 255);
+  background: radial-gradient(
+    circle,
+    rgba(200, 230, 255, 1) 0%,
+    rgba(145, 227, 255, 1) 100%
+  );
   width: 100%;
   height: 300px;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.balance-cont {
+  height: 220px;
+}
+
+.balance-text {
+  font-size: 5em;
+  font-weight: 100;
+  color: white;
 }
 </style>
