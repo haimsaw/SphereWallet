@@ -4,3 +4,4 @@ node_modules
 npm-debug.log
 
 ./Client/node_modules
+./server-p1/node_modules
