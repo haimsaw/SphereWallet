@@ -10,9 +10,9 @@
 
     <!-- Buttons -->
     <v-layout row justify-center>
-      <v-flex xs9>
+      <v-flex xs7>
         <v-layout justify-space-around xs10 offset-xs1>
-          <v-btn v-bind:class="buttonClass" round large>
+          <v-btn @click.stop="setSendDialong(true)" v-bind:class="buttonClass" round large>
             <v-icon>send</v-icon>Send
           </v-btn>
           <v-btn v-bind:class="buttonClass" round large>
@@ -21,19 +21,38 @@
         </v-layout>
       </v-flex>
     </v-layout>
+
+    <!-- Dialogs -->
+    <SendDialog v-model="sendDialogIsOpen" v-bind:isOpenProp="sendDialogIsOpen"></SendDialog>
   </v-container>
 </template>
 
+
 <script>
+import SendDialog from "./SendDialog";
+
 let balace = 1000;
 
 export default {
+  props: [],
+  components: {
+    SendDialog
+  },
   data: () => ({
     buttonClass: "button",
     containerClass: "container",
     centerText: "centerText",
-    balance: balace
-  })
+    balance: balace,
+    sendDialogIsOpen: false,
+    recieveDialog: false
+  }),
+  methods: {
+    setSendDialong: function(isOpen) {
+      console.log("setting send moadl " + this.sendDialogIsOpen);
+      this.sendDialogIsOpen = isOpen;
+      console.log("setted send moadl " + this.sendDialogIsOpen);
+    }
+  }
 };
 </script>
 
@@ -59,7 +78,7 @@ export default {
 }
 
 .balance-cont {
-  height: 220px;
+  height: 200px;
 }
 
 .balance-text {
