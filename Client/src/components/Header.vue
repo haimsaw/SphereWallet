@@ -15,7 +15,7 @@
           <v-btn @click.stop="sendDialogIsOpen=true" v-bind:class="buttonClass" round large>
             <v-icon>send</v-icon>Send
           </v-btn>
-          <v-btn v-bind:class="buttonClass" round large>
+          <v-btn v-bind:class="buttonClass" @click.stop="recieveDialogIsOpen=true" round large>
             <v-icon>archive</v-icon>Recive
           </v-btn>
         </v-layout>
@@ -24,19 +24,22 @@
 
     <!-- Dialogs -->
     <SendDialog v-model="sendDialogIsOpen"></SendDialog>
+    <RecieveDialog v-model="recieveDialogIsOpen"></RecieveDialog>
   </v-container>
 </template>
 
 
 <script>
 import SendDialog from "./SendDialog";
+import RecieveDialog from "./RecieveDialog";
 
 let balace = 1000;
 
 export default {
   props: [],
   components: {
-    SendDialog
+    SendDialog,
+    RecieveDialog
   },
   data: () => ({
     buttonClass: "button",
@@ -44,7 +47,7 @@ export default {
     centerText: "centerText",
     balance: balace,
     sendDialogIsOpen: false,
-    recieveDialog: false
+    recieveDialogIsOpen: false
   }),
   methods: {}
 };

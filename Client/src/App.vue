@@ -12,7 +12,7 @@ import Header from "./components/Header";
 import History from "./components/History";
 
 export default {
-  name: "App",
+  name: "SphereWallet",
   components: {
     Header,
     History

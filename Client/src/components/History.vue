@@ -1,7 +1,7 @@
 <template>
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card>
+      <v-card class="history">
         <v-list three-line>
           <template v-for="(item, index) in items">
             <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style>
-.v-card {
-  margin-top: 80px;
+.v-card.history {
+  margin-top: 50px;
 }
 </style>
