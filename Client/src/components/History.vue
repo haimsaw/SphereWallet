@@ -26,30 +26,53 @@
 </template>
 
 <script>
+// data_url = "https://api.myjson.com/bins/wzf3c";
+
 export default {
   data() {
     return {
       items: [
-        { header: "Today" },
-        {
-          avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
-          title: "Bitcoin transaction one",
-          subtitle: "$212 - 0.21245 BTC"
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
-          title: "Bitcoin transaction one",
-          subtitle: "$212 - 0.21245 BTC"
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
-          title: "Bitcoin transaction one",
-          subtitle: "$212 - 0.21245 BTC"
-        }
+        { header: "Today" }
+        // {
+        //   avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
+        //   title: "Bitcoin transaction one",
+        //   subtitle: "$212 / 0.21245 BTC"
+        // },
+        // { divider: true, inset: true },
+        // {
+        //   avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
+        //   title: "Bitcoin transaction one",
+        //   subtitle: "$212 / 0.21245 BTC"
+        // },
+        // { divider: true, inset: true },
+        // {
+        //   avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
+        //   title: "Bitcoin transaction one",
+        //   subtitle: "$212 / 0.21245 BTC"
+        // }
       ]
     };
+  },
+  mounted() {
+    fetch("https://api.myjson.com/bins/wzf3c")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        console.warn(data);
+        let mapped = data.map(function(item) {
+          return {
+            avatar: item.avatar,
+            title: item.description,
+            subtitle: item.country
+          };
+        });
+        console.warn(mapped);
+        mapped.forEach(item => {
+          this.items.push(item);
+          this.items.push({ divider: true, inset: true });
+        });
+      });
   }
 };
 </script>
