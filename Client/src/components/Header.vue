@@ -12,7 +12,7 @@
     <v-layout row justify-center>
       <v-flex xs7>
         <v-layout justify-space-around xs10 offset-xs1>
-          <v-btn @click.stop="setSendDialong(true)" v-bind:class="buttonClass" round large>
+          <v-btn @click.stop="sendDialogIsOpen=true" v-bind:class="buttonClass" round large>
             <v-icon>send</v-icon>Send
           </v-btn>
           <v-btn v-bind:class="buttonClass" round large>
@@ -23,7 +23,7 @@
     </v-layout>
 
     <!-- Dialogs -->
-    <SendDialog v-model="sendDialogIsOpen" v-bind:isOpenProp="sendDialogIsOpen"></SendDialog>
+    <SendDialog v-model="sendDialogIsOpen"></SendDialog>
   </v-container>
 </template>
 
@@ -46,13 +46,7 @@ export default {
     sendDialogIsOpen: false,
     recieveDialog: false
   }),
-  methods: {
-    setSendDialong: function(isOpen) {
-      console.log("setting send moadl " + this.sendDialogIsOpen);
-      this.sendDialogIsOpen = isOpen;
-      console.log("setted send moadl " + this.sendDialogIsOpen);
-    }
-  }
+  methods: {}
 };
 </script>
 

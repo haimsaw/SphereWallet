@@ -11,8 +11,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="rgb(92, 190, 223)" flat="flat" @click="isOpen=false">Cancel</v-btn>
-          <v-btn color="rgba(145, 227, 255)" @click="isOpen=false">Send</v-btn>
+          <v-btn color="rgb(92, 190, 223)" flat="flat" @click="emit(false)">Cancel</v-btn>
+          <v-btn color="rgba(145, 227, 255)" @click="emit(false)">Send</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>  </section>
@@ -22,25 +22,31 @@
 <script lang="js">
   export default  {
     name: 'send-dialog',
-    props: ["value", "isOpenProp"],
+    props: ["value"],
     mounted() {
 
     },
     data() {
       console.log("calculation data " + this.isOpenProp)
       return {
-        isOpen: this.isOpenProp
+        isOpen: this.value
       }
     },
   methods:{
+    emit: function(val) {
+      this.isOpen= val;
+      this.$emit("input", val)
+    }
 
   },
     watch: {
-    isOpenProp (val) {
-      console.log('emitting');
-      this.isOpen=val
+    isOpen (val) {
          this.$emit("input", val)
-    }},
+    },
+    value(val) {
+      this.isOpen = val
+    }
+  },
     computed: {
 
     }
