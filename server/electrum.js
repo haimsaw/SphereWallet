@@ -36,7 +36,7 @@ const proc = async (cl, method, publicKey, trx) => {
       case methodEnum.getTransactions:
         console.log("num of transactions =", response);
 
-        //response = await cl.blockchainScripthash_getBalance(scriptHash);
+        response = await cl.blockchainScripthash_getHistory(scriptHash, 1);
         console.log("balance =", response);
         break;
 
