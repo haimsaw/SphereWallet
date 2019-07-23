@@ -46,6 +46,11 @@ import axios from "axios";
     },
     value(val) {
       this.isOpen = val
+      if(val){
+            axios
+      .get('http://localhost:3000/recieve')
+      .then(response => (this.message = response.data))
+      }
     }
   },
     computed: {
