@@ -18,7 +18,6 @@ const proc = async (cl, method, publicKey) => {
     // 2N2gmWMwrjuxdECctvGQpCLv8tEhUGM9ig6
     // mkHS9ne12qx9pS9VojpwU5xtRd4T7X7ZUt
     // tb1q2nxh9twy0ff8pe4rs6k5gkfjhajh9ptklf8972
-    console.log("sending " + method + " to bitcoin server");
     const { address } = bitcoinjs.payments.p2pkh({ pubkey: publicKey, network: TESTNET });
     const scriptHash = toElectrumHash(address);
     console.log("scriptHash =", scriptHash);
