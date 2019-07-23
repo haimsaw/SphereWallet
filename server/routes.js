@@ -15,6 +15,7 @@ var bitcoinApiUrl = "ec2-34-219-15-143.us-west-2.compute.amazonaws.com";
 router.get("/", (req, res) => {
   res.json("Welcome To ShpereWallet Hackathon");
 });
+
 router.post("/send", (req, res) => {
   console.log("Post to send route recieved ");
   const { address, amount } = req.body;
@@ -64,6 +65,16 @@ router.get("/recieve", (req, res) => {
 
   //return adress to client
   res.json(address);
+});
+
+router.get("/getTransactions", (req, res) => {
+  console.log("getTransactions route recieved ");
+
+  // Get key pair
+  let keyPair = getOrGenerateKeyPair();
+  sendRequestToElectrom(electrumMethodEnum.getTransactions, keyPair.publicKey).then(resFromElectrum => {
+    res.json(resFromElectrum);
+  });
 });
 
 function getOrGenerateKeyPair() {
