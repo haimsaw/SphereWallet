@@ -5,10 +5,11 @@ const TESTNET = bitcoinjs.networks.testnet;
 const methodEnum = {
   listUnspent: 0,
   getBalance: 1,
-  getTransactions: 2
+  getTransactions: 2,
+  broadcastTrx: 3
 };
 
-const proc = async (cl, method, publicKey) => {
+const proc = async (cl, method, publicKey, trx) => {
   try {
     const version = await cl.server_version("2.7.11", "1.0");
     // console.log(version)
@@ -39,6 +40,11 @@ const proc = async (cl, method, publicKey) => {
         console.log("balance =", response);
         break;
 
+      case methodEnum.broadcastTrx:
+        response = await cl.blockchainTransaction_broadcast(trx);
+        console.log("Brodcast Response: " + response);
+        break;
+
       default:
         break;
     }
@@ -49,10 +55,10 @@ const proc = async (cl, method, publicKey) => {
   }
 };
 
-const sendRequestToBitcoin = async (method, publicKey) => {
+const sendRequestToBitcoin = async (method, publicKey, trx) => {
   const cl = new Client(60001, "ec2-34-219-15-143.us-west-2.compute.amazonaws.com");
   await cl.connect();
-  const response = await proc(cl, method, publicKey);
+  const response = await proc(cl, method, publicKey, trx);
   await cl.close();
   return response;
 };

@@ -16,14 +16,14 @@ router.get("/", (req, res) => {
   res.json("Welcome To ShpereWallet Hackathon");
 });
 
-router.post("/send", (req, res) => {
+router.post("/send", async (req, res) => {
   console.log("Post to send route recieved ");
   const { address, amount } = req.body;
 
   // Get key pair
   let keyPair = getOrGenerateKeyPair();
-  sendRequestToElectrom(electrumMethodEnum.listUnspent, keyPair.publicKey).then(resFromElectrum => {
-    unspentArray = resFromElectrum;
+  try {
+    let unspentArray = await sendRequestToElectrom(electrumMethodEnum.listUnspent, keyPair.publicKey);
     const txb = new bitcoin.TransactionBuilder(TESTNET);
     txb.setVersion(1);
     let count = 0;
@@ -38,6 +38,7 @@ router.post("/send", (req, res) => {
 
     // If we didn't add enough
     if (count < amount) {
+      console.log("Not enough funds. returning 401 response");
       return res.status(401).json("Not enough funds!");
     }
 
@@ -51,8 +52,16 @@ router.post("/send", (req, res) => {
     });
 
     const finalTrx = txb.build().toHex();
-    console.log(finalTrx);
-  });
+    let broadcastRespone = await sendRequestToElectrom(
+      electrumMethodEnum.broadcastTrx,
+      /* PublicKey */ getOrGenerateKeyPair().publicKey,
+      /* trx */ finalTrx
+    );
+    res.json(broadcastRespone);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(JSON.stringify(error));
+  }
 });
 
 router.get("/balance", (req, res) => {
