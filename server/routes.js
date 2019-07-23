@@ -21,14 +21,37 @@ router.post("/send", (req, res) => {
 
   // Get key pair
   let keyPair = getOrGenerateKeyPair();
-  sendRequestToElectrom(electrumMethodEnum.getBalance, keyPair.publicKey);
+  sendRequestToElectrom(electrumMethodEnum.listUnspent, keyPair.publicKey).then(resFromElectrum => {
+    unspentArray = resFromElectrum;
+    const txb = new bitcoin.TransactionBuilder();
+    txb.setVersion(1);
+    let count = 0;
+
+    // Add all unspent needed for the transaction
+    for (let i = 0; i < unspentArray.length; i++) {
+      if (count > amount) break; // if we added enough
+      const unspentTrx = unspentArray[i];
+      txb.addInput(unspentTrx.tx_hash, unspentTrx.tx_pos); // Alice's previous transaction output, has 15000 satoshis
+      count = count + unspentTrx.value;
+    }
+
+    // If we didn't add enough
+    if (count < amount) {
+      return res.status(401).json("Not enough funds!");
+    }
+
+    txb.addOutput(address, amount); //send to
+  });
 });
 
-router.post("/balance", (req, res) => {
+router.get("/balance", (req, res) => {
   console.log("Post to send route recieved ");
 
   // Get key pair
   let keyPair = getOrGenerateKeyPair();
+  sendRequestToElectrom(electrumMethodEnum.getBalance, keyPair.publicKey).then(resFromElectrum => {
+    res.json(resFromElectrum);
+  });
 });
 
 router.get("/recieve", (req, res) => {

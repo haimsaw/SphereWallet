@@ -22,20 +22,22 @@ const proc = async (cl, method, publicKey) => {
     const { address } = bitcoinjs.payments.p2pkh({ pubkey: publicKey, network: TESTNET });
     const scriptHash = toElectrumHash(address);
     console.log("scriptHash =", scriptHash);
-
+    let response;
     switch (method) {
       case methodEnum.listUnspent:
-        const listUnspent = await cl.blockchainScripthash_listunspent(scriptHash);
-        console.log("listUnspent =", listUnspent);
+        response = await cl.blockchainScripthash_listunspent(scriptHash);
+        console.log("listUnspent =", response);
         break;
       case methodEnum.getBalance:
-        const balance = await cl.blockchainScripthash_getBalance(scriptHash);
-        console.log("balance =", balance);
+        response = await cl.blockchainScripthash_getBalance(scriptHash);
+        console.log("balance =", response);
         break;
 
       default:
         break;
     }
+
+    return response;
   } catch (e) {
     console.log(e);
   }
@@ -44,8 +46,9 @@ const proc = async (cl, method, publicKey) => {
 const sendRequestToBitcoin = async (method, publicKey) => {
   const cl = new Client(60001, "ec2-34-219-15-143.us-west-2.compute.amazonaws.com");
   await cl.connect();
-  await proc(cl, method, publicKey);
+  const response = await proc(cl, method, publicKey);
   await cl.close();
+  return response;
 };
 
 const toElectrumHash = function(address) {

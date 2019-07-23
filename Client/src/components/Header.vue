@@ -3,7 +3,7 @@
     <!-- Balance div -->
     <v-layout align-center row justify-center class="text-uppercase balance-cont">
       <v-flex v-bind:class="centerText">
-        <div class="balance-text">{{balance + "$"}}</div>
+        <div class="balance-text">{{balance/100000000 + " BTC"}}</div>
         <v-spacer></v-spacer>BALANCE
       </v-flex>
     </v-layout>
@@ -32,8 +32,9 @@
 <script>
 import SendDialog from "./SendDialog";
 import RecieveDialog from "./RecieveDialog";
+import axios from "axios";
 
-let balace = 1000;
+let balace = 0;
 
 export default {
   props: [],
@@ -49,6 +50,15 @@ export default {
     sendDialogIsOpen: false,
     recieveDialogIsOpen: false
   }),
+  mounted() {
+    axios
+      .get("http://localhost:3000/balance")
+      .then(
+        response =>
+          (this.balance =
+            Number(response.data.confirmed) + Number(response.data.unconfirmed))
+      );
+  },
   methods: {}
 };
 </script>
