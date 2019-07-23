@@ -4,7 +4,8 @@ const TESTNET = bitcoinjs.networks.testnet;
 
 const methodEnum = {
   listUnspent: 0,
-  getBalance: 1
+  getBalance: 1,
+  getTransactions: 2
 };
 
 const proc = async (cl, method, publicKey) => {
@@ -29,6 +30,12 @@ const proc = async (cl, method, publicKey) => {
         break;
       case methodEnum.getBalance:
         response = await cl.blockchainScripthash_getBalance(scriptHash);
+        console.log("balance =", response);
+        break;
+      case methodEnum.getTransactions:
+        console.log("num of transactions =", response);
+
+        //response = await cl.blockchainScripthash_getBalance(scriptHash);
         console.log("balance =", response);
         break;
 
