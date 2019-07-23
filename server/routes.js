@@ -24,7 +24,7 @@ router.post("/send", (req, res) => {
   let keyPair = getOrGenerateKeyPair();
   sendRequestToElectrom(electrumMethodEnum.listUnspent, keyPair.publicKey).then(resFromElectrum => {
     unspentArray = resFromElectrum;
-    const txb = new bitcoin.TransactionBuilder();
+    const txb = new bitcoin.TransactionBuilder(TESTNET);
     txb.setVersion(1);
     let count = 0;
 
@@ -41,7 +41,17 @@ router.post("/send", (req, res) => {
       return res.status(401).json("Not enough funds!");
     }
 
-    txb.addOutput(address, amount); //send to
+    txb.addOutput(address, Number(amount)); //send amount to address
+
+    // This is suppsed to be done in sphere
+    txb.sign({
+      prevOutScriptType: "p2pkh",
+      vin: 0,
+      keyPair: getOrGenerateKeyPair()
+    });
+
+    const finalTrx = txb.build().toHex();
+    console.log(finalTrx);
   });
 });
 
@@ -79,7 +89,7 @@ router.get("/getTransactions", (req, res) => {
 
 function getOrGenerateKeyPair() {
   //just for testing
-  return bitcoin.ECPair.fromPrivateKey(testPrivateKey);
+  return bitcoin.ECPair.fromPrivateKey(testPrivateKey, { network: TESTNET });
 
   let keyPair;
   if (!db.keyPair) {
