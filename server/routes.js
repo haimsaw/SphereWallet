@@ -13,7 +13,13 @@ router.get("/", (req, res) => {
 router.post("/send", (req, res) => {
   console.log("Post to send route recieved ");
   const { address, amount } = req.body;
-  res.json(req.body);
+
+  // Get key pair
+  let keyPair = getOrGenerateKeyPair();
+});
+
+router.post("/balance", (req, res) => {
+  console.log("Post to send route recieved ");
 
   // Get key pair
   let keyPair = getOrGenerateKeyPair();
@@ -34,6 +40,7 @@ router.get("/recieve", (req, res) => {
 function getOrGenerateKeyPair() {
   let keyPair;
   if (!db.keyPair) {
+    // This should be done with the sphere
     keyPair = bitcoin.ECPair.makeRandom();
     db.keyPair = keyPair;
   } else {
