@@ -40,8 +40,7 @@ const proc = async (cl, method, publicKey, trx) => {
         response = [];
         for (let i in transactions) {
           tx_hash = transactions[i].tx_hash;
-          tx = await cl.blockchainTransaction_get( transactions[i].tx_hash, transactions[i].height);
-          response.push(tx);
+          response.push(tx_hash);
         }
 
         console.log("num of transactions =", response.length);

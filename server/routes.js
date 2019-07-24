@@ -92,11 +92,7 @@ router.get("/getTransactions", (req, res) => {
   // Get key pair
   let keyPair = getOrGenerateKeyPair();
   sendRequestToElectrom(electrumMethodEnum.getTransactions, keyPair.publicKey).then(resFromElectrum => {
-    let decoded_tx = [];
-    for (let tx in resFromElectrum){
-      decoded_tx.push(bitcoin.Transaction.fromHex(resFromElectrum[0]));
-    }
-    res.json(decoded_tx);
+    res.json(resFromElectrum);
   });
 });
 
