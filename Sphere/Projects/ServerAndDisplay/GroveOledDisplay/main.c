@@ -482,9 +482,14 @@ int main(int argc, char *argv[])
 		drawBitmap(SeeedLogo128x128, sizeof(SeeedLogo128x128));
 	}
 
-	if (true) {
+	if (false) {
 		clearDisplay();
 		drawBitmap(ZenGoLogo, sizeof(ZenGoLogo));
+	}
+
+	if (true) {
+		clearDisplay();
+		drawBitmap(BitcoinLogo, sizeof(BitcoinLogo));
 	}
 
 	if (false) {
