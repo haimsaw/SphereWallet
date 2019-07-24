@@ -43,17 +43,44 @@
 #include "echo_tcp_server.h"
 
 
+#define ECC_BYTES 32
 
 
+int ecdsa_degen_sign(char* message, uint8_t* p_signature);
+int ecdsa_degen_sign_internal(const uint8_t p_privateKey[ECC_BYTES], const uint8_t p_hash[ECC_BYTES], uint8_t p_signature[ECC_BYTES * 2]);
 
 
+int hex2int(char ch)
+{
+	if (ch >= '0' && ch <= '9')
+		return ch - '0';
+	if (ch >= 'A' && ch <= 'F')
+		return ch - 'A' + 10;
+	if (ch >= 'a' && ch <= 'f')
+		return ch - 'a' + 10;
+	return -1;
+}
+
+void convert_message_to_hash(char* message, uint8_t* p_hash) {
+	
+	for (int i = 0; i < ECC_BYTES; i++) {
+		p_hash[i] = 10 * hex2int(message[i]) + (message[i + 1]);
+	}
+}
 
 
+int ecdsa_degen_sign(char* message, uint8_t* p_signature) {
+	if (!message || !p_signature)
+		return 0;
 
+	uint8_t p_privateKey[ECC_BYTES] = {};
+	p_privateKey[ECC_BYTES - 1] = 1;
 
+	uint8_t p_hash[ECC_BYTES] = {};
+	convert_message_to_hash(message, p_hash);
 
-
-
+	return ecdsa_degen_sign_internal(p_privateKey, p_hash, p_signature);
+}
 
 
 
