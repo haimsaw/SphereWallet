@@ -34,10 +34,17 @@ const proc = async (cl, method, publicKey, trx) => {
         console.log("balance =", response);
         break;
       case methodEnum.getTransactions:
-        console.log("num of transactions =", response);
 
-        response = await cl.blockchainScripthash_getHistory(scriptHash, 1);
-        console.log("balance =", response);
+        transactions = await cl.blockchainScripthash_getHistory(scriptHash, 0);
+
+        response = [];
+        for (let i in transactions) {
+          tx_hash = transactions[i].tx_hash;
+          tx = await cl.blockchainTransaction_get( transactions[i].tx_hash, transactions[i].height);
+          response.push(tx);
+        }
+
+        console.log("num of transactions =", response.length);
         break;
 
       case methodEnum.broadcastTrx:

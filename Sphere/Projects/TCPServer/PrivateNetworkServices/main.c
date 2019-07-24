@@ -29,7 +29,7 @@
 // By default, this sample is targeted at the MT3620 Reference Development Board (RDB).
 // This can be changed using the project property "Target Hardware Definition Directory".
 // This #include imports the sample_hardware abstraction from that hardware definition.
-#include <hw/sample_hardware.h>
+// #include <hw/sample_hardware.h>
 
 #include "echo_tcp_server.h"
 
