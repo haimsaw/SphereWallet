@@ -1,1 +1,1 @@
-exports.SphereClient = require('./sphere-client');
+module.exports = SphereClient = require("./sphere-client");
