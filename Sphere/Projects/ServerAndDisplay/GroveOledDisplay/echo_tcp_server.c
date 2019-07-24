@@ -16,6 +16,11 @@
 
 #include "echo_tcp_server.h"
 
+
+#include "Sensors/GroveOledDisplay96x96.h"
+
+
+
    // Support functions.
 static void HandleListenEvent(EventData *eventData);
 static void LaunchRead(EchoServer_ServerState *serverState);
@@ -211,11 +216,22 @@ static void HandleClientReadEvent(EventData *eventData)
 	}
 }
 
+void printText(const char *s) {
+	// Word display
+	clearDisplay();
+	setNormalDisplay();
+	setVerticalMode();
+
+	setTextXY(7, 1);  //set Cursor to ith line, jth column
+	//setGrayLevel(0); //Set Grayscale level. Any number between 0 - 15.
+	putString(s); //Print Hello World
+}
+
 static void LaunchWrite(EchoServer_ServerState *serverState)
 {
 	// Allocate a client response on the heap.
 	char *str;
-	int result = asprintf(&str, "Hi, I Received \"%s\"\r\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n", serverState->input);
+	int result = asprintf(&str, "Hi, I Received \"%s\"\r\n", serverState->input);
 	if (result == -1) {
 		ReportError("asprintf");
 		StopServer(serverState, EchoServer_StopReason_Error);
@@ -227,6 +243,8 @@ static void LaunchWrite(EchoServer_ServerState *serverState)
 	serverState->txPayload = (uint8_t *)str;
 	serverState->txBytesSent = 0;
 	HandleClientWriteEvent(&serverState->clientWriteEvent);
+
+	printText(serverState->input);
 }
 
 static void HandleClientWriteEvent(EventData *eventData)

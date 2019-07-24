@@ -47,6 +47,7 @@
     <ClCompile Include="epoll_timerfd_utilities.c" />
     <ClCompile Include="main.c" />
     <UpToDateCheckInput Include="app_manifest.json" />
+    <ClInclude Include="bitmaps.h" />
     <ClInclude Include="echo_tcp_server.h" />
     <ClInclude Include="epoll_timerfd_utilities.h" />
     <ClInclude Include="mt3620_rdb.h" />
