@@ -15,7 +15,9 @@
 
               <v-list-tile-content>
                 <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                <a :href="item.subtitle" target="_blank">
+                  <v-list-tile-sub-title>See Transaction Details</v-list-tile-sub-title>
+                </a>
               </v-list-tile-content>
             </v-list-tile>
           </template>
@@ -32,39 +34,58 @@ export default {
   data() {
     return {
       items: [
-        { header: "Today" }
+        // { header: "Today" },
         // {
         //   avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
-        //   title: "Bitcoin transaction one",
-        //   subtitle: "$212 / 0.21245 BTC"
+        //   title: "Bitcoin payment",
+        //   subtitle: "0.21245 BTC"
         // },
         // { divider: true, inset: true },
         // {
         //   avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
-        //   title: "Bitcoin transaction one",
-        //   subtitle: "$212 / 0.21245 BTC"
+        //   title: "Bitcoin payment",
+        //   subtitle: "0.2125 BTC"
         // },
         // { divider: true, inset: true },
         // {
         //   avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
-        //   title: "Bitcoin transaction one",
-        //   subtitle: "$212 / 0.21245 BTC"
+        //   title: "Bitcoin payment",
+        //   subtitle: "0.17245 BTC"
         // }
       ]
     };
   },
   mounted() {
-    fetch("https://api.myjson.com/bins/wzf3c")
+    // fetch("https://api.myjson.com/bins/wzf3c")
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(data => {
+    //     console.warn(data);
+    //     let mapped = data.map(function(item) {
+    //       return {
+    //         avatar: item.avatar,
+    //         title: item.description,
+    //         subtitle: item.country
+    //       };
+    //     });
+    //     console.warn(mapped);
+    //     mapped.forEach(item => {
+    //       this.items.push(item);
+    //       this.items.push({ divider: true, inset: true });
+    //     });
+    //   });
+    fetch("http://localhost:3000/getTransactions")
       .then(response => {
         return response.json();
       })
       .then(data => {
         console.warn(data);
-        let mapped = data.map(function(item) {
+        let mapped = data.map(function(hash) {
           return {
-            avatar: item.avatar,
-            title: item.description,
-            subtitle: item.country
+            avatar: "https://bitcoin.org/img/icons/opengraph.png?1563473161",
+            title: "BTC Transaction",
+            subtitle: "https://blockstream.info/testnet/tx/" + hash
           };
         });
         console.warn(mapped);
