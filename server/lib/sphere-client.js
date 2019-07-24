@@ -1,4 +1,4 @@
-var Telnet = require('telnet-client');
+var Telnet = require("telnet-client");
 var connection = new Telnet();
 
 /* Example:
@@ -7,28 +7,28 @@ var connection = new Telnet();
     sphereResponse = await sc.sendToSphere('some message');
  */
 
-export class SphereClient {
-    constructor(host, port) {
-        this.host = host;
-        this.port = port;
+module.exports = class SphereClient {
+  constructor(host, port) {
+    this.host = host;
+    this.port = port;
+  }
+
+  async sendToSphere(message) {
+    const params = {
+      host: this.host,
+      port: this.port,
+      negotiationMandatory: false
+    };
+    let response;
+    try {
+      const prompt = await connection.connect(params);
+      response = await connection.send(`${message}\r`);
+      console.log("Received from server:", response);
+    } catch (e) {
+      console.error("Error while communicating with Sphere:", e);
+      throw e;
     }
 
-    async sendToSphere(message) {
-        const params = {
-            host: this.host,
-            port: this.port,
-            negotiationMandatory: false
-        };
-        let response;
-        try {
-            const prompt = await connection.connect(params);
-            response = await connection.send(`${message}\r`);
-            console.log('Received from server:', response);
-        } catch (e) {
-            consol.error('Error while communicating with Sphere:', e);
-            throw e;
-        }
-
-        return response;
-    }
-}
+    return response;
+  }
+};
