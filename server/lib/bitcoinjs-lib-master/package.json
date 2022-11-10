@@ -56,7 +56,7 @@
     "dhttp": "^2.5.0",
     "hoodwink": "^1.0.0",
     "minimaldata": "^1.0.2",
-    "mocha": "^5.2.0",
+    "mocha": "^10.1.0",
     "nyc": "^11.8.0",
     "proxyquire": "^2.0.1",
     "standard": "^11.0.1"
